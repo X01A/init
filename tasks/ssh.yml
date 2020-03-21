@@ -1,7 +1,7 @@
 ---
 - name: Set ssh keys
   set_fact:
-    ssh_key: "{{ssh_key}}\n{{item}}"
+    ssh_key: "{{ ssh_key }}\n{{ item }}"
   run_once: true
   delegate_to: localhost
   with_lines:
