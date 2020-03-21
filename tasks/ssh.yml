@@ -1,0 +1,32 @@
+---
+- name: Set ssh keys
+  set_fact:
+    ssh_key: "{{ssh_key}}\n{{item}}"
+  run_once: true
+  delegate_to: localhost
+  with_lines:
+    - cat ~/.ssh/*.pub 2>/dev/null | cat
+    - curl https://github.com/{{ github_username }}.keys
+
+- name: Copy ssh keys
+  authorized_key:
+    user: root
+    key: "{{ ssh_key }}"
+    state: present
+    exclusive: yes
+  register: add_identity_key
+
+- name: Disable empty password login
+  lineinfile:
+    dest: "{{ sshd_config }}"
+    regexp: "^#?PermitEmptyPasswords"
+    line: PermitEmptyPasswords no
+  notify: restart sshd
+
+- name: Disable password login
+  lineinfile:
+    dest: "{{ sshd_config }}"
+    regexp: "^(#\\s*)?PasswordAuthentication "
+    line: "PasswordAuthentication no"
+  when: add_identity_key is success and not add_identity_key is skipped
+  notify: restart sshd

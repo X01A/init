@@ -1,0 +1,9 @@
+---
+sshd_config: /etc/ssh/sshd_config
+
+sshd: sshd
+
+ssh_skip: no
+ssh_key: ''
+
+github_username: 'Indexyz'

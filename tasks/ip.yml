@@ -1,0 +1,13 @@
+---
+- name: Install curl
+  package:
+    name: curl
+    state: latest
+
+- name: Get user ip to facts
+  get_url:
+    url: https://api.ip.sb/geoip
+    dest: /etc/ansible/facts.d/ip.fact
+
+- name: Re-gather facts
+  setup: ~
