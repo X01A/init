@@ -4,6 +4,11 @@
     name: curl
     state: latest
 
+- name: Make sure facts dir exsit
+  file:
+    path: /etc/ansible/facts.d
+    state: directory
+
 - name: Get user ip to facts
   get_url:
     url: https://api.ip.sb/geoip
