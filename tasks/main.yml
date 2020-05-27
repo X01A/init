@@ -3,3 +3,6 @@
   when: not ssh_skip
 - import_tasks: ip.yml
 - import_tasks: sysctl.yml
+
+- import_tasks: hostname.yml
+  when: init_hostname is defined

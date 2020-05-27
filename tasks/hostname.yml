@@ -1,0 +1,14 @@
+---
+- name: Set hostname via hostnamectl
+  command: hostnamectl set-hostname {{init_hostname}}
+
+- name: Add dns server to resolv.conf
+  lineinfile:
+    path: /etc/resolv.conf
+    line: nameserver 1.1.1.1
+
+- name: Upload nodes to each other hosts
+  blockinfile:
+    path: /etc/hosts
+    block: "{{ lookup('template', 'templates/hosts') }}"
+    backup: yes

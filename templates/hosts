@@ -1,0 +1,6 @@
+{% for host in ansible_play_batch %}
+{% if hostvars[host]['init_hostname'] is defined %}
+{{ hostvars[host]['init_hostname'] }} {% if hostvars[host]['inte_ip'] is defined %}{{ hostvars[host]['inte_ip'] }}{% else %}{{ host }}{% endif %}
+
+{% endif %}
+{% endfor %}
